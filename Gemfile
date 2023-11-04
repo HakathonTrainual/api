@@ -21,6 +21,9 @@ gem 'active_model_serializers'
 # using ActiveStorage
 gem "image_processing", ">= 1.2"
 
+# using AWS S3
+gem "aws-sdk-s3"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
