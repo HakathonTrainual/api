@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       post '/login', to: 'authentication#login'
       get '/my_profile', to: 'users#show_current_user'
 
+      resources :hobbies
       resources :progresses
     end
   end

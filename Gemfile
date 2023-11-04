@@ -18,6 +18,9 @@ gem 'dotenv-rails', groups: %i[development test]
 # Gem for serializers
 gem 'active_model_serializers'
 
+# using ActiveStorage
+gem "image_processing", ">= 1.2"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
