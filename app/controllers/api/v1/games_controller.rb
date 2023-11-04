@@ -6,6 +6,8 @@ class GamesController < ApplicationController
 
   def start_game
     @current_user
+    random_users = Progress.where('percentage < 100').order("RANDOM()").limit(4).pluck(:user_id)
+    users = User.where(id: random_users)
   end
 
   def end_game
