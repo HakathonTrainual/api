@@ -28,4 +28,10 @@ class Api::V1::ProgressesController < ApplicationController
   def set_percentage
     @percentage =
   end
+
+  def progress_params
+    params.permit(
+      :user_id, :target_user_id, :percentage
+    )
+  end
 end
