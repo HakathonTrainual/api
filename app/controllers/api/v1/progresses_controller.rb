@@ -26,7 +26,7 @@ class Api::V1::ProgressesController < ApplicationController
   end
 
   def set_percentage
-    @percentage =
+    @percentage = 1
   end
 
   def progress_params
