@@ -6,4 +6,14 @@ class User < ApplicationRecord
   has_many :progresses
   has_one_attached :image
   has_and_belongs_to_many :hobbies
+
+  enum department: {
+    Development: 0,
+    Marketing: 1,
+    Support: 2,
+    Finance: 3,
+    Management: 4,
+    Design: 5,
+    Testing: 6
+  }
 end

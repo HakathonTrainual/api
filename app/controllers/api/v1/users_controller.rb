@@ -33,7 +33,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    if current_user.update!(params.permit(:first_name, :last_name, :description))
+    if current_user.update!(params.permit(:first_name, :last_name, :email, :description, :department, :instagram,
+                                          :facebook))
       render_success(data: current_user, serializer: Api::V1::UserSerializer)
     else
       render_error(errors: current_user.errors.full_messages)
