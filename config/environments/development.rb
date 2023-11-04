@@ -38,6 +38,11 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  Rails.application.configure do
+    config.active_storage.service = :local
+    config.active_storage.url_options = { host: '127.0.0.1:3000' }
+  end
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
