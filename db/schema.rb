@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_04_200130) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_04_222105) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_200130) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "hobbies", force: :cascade do |t|
     t.string "name"
@@ -52,6 +53,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_200130) do
   create_table "hobbies_users", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "hobby_id", null: false
+    t.index ["hobby_id", "user_id"], name: "index_hobbies_users_on_hobby_id_and_user_id"
+    t.index ["user_id", "hobby_id"], name: "index_hobbies_users_on_user_id_and_hobby_id"
   end
 
   create_table "progresses", force: :cascade do |t|
