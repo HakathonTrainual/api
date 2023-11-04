@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_04_175437) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_04_205228) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "hobbies", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_hobbies_on_user_id"
+  end
+
+  create_table "hobbies_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "hobby_id", null: false
+  end
 
   create_table "progresses", force: :cascade do |t|
     t.bigint "user_id"
@@ -33,6 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_175437) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "hobbies", "users"
   add_foreign_key "progresses", "users"
   add_foreign_key "progresses", "users", column: "target_user_id"
 end
