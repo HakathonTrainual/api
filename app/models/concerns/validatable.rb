@@ -48,29 +48,6 @@ module Validatable
     def password_required?
       new_record? || password.present?
     end
-  end
 
-  def self.validate_description
-    validates :description,
-              presence: true,
-              length: { in: MAX_DESCRIPTION_LENGTH }
-  end
-
-  def self.validate_instagram_url
-    validates :instagram,
-              format: {
-                with: REGEXP_INSTAGRAM,
-                message: I18n.t('validation_messages.instagram_link_format')
-              },
-              allow_blank: true
-  end
-
-  def self.validate_facebook_url
-    validates :facebook,
-              format: {
-                with: REGEXP_FACEBOOK,
-                message: I18n.t('validation_messages.facebook_link_format')
-              },
-              allow_blank: true
   end
 end
