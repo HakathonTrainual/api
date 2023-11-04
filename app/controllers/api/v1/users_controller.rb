@@ -1,24 +1,29 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authorize_request, except: :create
-  before_action :find_user, except: %i[create index show_current_user]
+  include TokenGenerationable
+
+  skip_before_action :authorize_request, only: :create
+  before_action :find_user, only: :show
 
   def index
     @users = User.all
-    render json: @users, status: :ok
+    render_success(data: @users, each_serializer: Api::V1::UserSerializer)
   end
 
   def show
-    render json: @user, status: :ok
+    render_success(data: @user, serializer: Api::V1::UserSerializer)
   end
 
   def show_current_user
-    render json: current_user, status: :ok
+    render_success(data: current_user, serializer: Api::V1::UserSerializer)
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: @user, status: :created
+      token_data = generate_token(@user.id)
+      render_success(data: { token: token_data[:token],
+                             expiration_date: token_data[:expiration_date],
+                             user: @user }, status: :created)
     else
       render json: { errors: @user.errors.full_messages },
              status: :unprocessable_entity
@@ -26,25 +31,22 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
-      render json: @user
+    if current_user.update!(params.permit(:first_name, :last_name))
+      render_success(data: current_user, serializer: Api::V1::UserSerializer)
     else
-
-      render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
+      render_error(errors: current_user.errors.full_messages)
     end
   end
 
   def destroy
-    @user.destroy
+    current_user.destroy
+    render_success(data: 'User account deleted successfully')
   end
 
   private
 
   def find_user
     @user = User.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { errors: 'User not found' }, status: :not_found
   end
 
   def user_params
