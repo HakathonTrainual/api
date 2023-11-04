@@ -9,5 +9,7 @@ module Userable
     validate_name_field :last_name
     validate_password
     validate_email
+    validate_instagram_url
+    validate_facebook_url
   end
 end
