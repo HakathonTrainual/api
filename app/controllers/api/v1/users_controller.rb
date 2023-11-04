@@ -3,6 +3,7 @@ class Api::V1::UsersController < ApplicationController
 
   skip_before_action :authorize_request, only: :create
   before_action :find_user, only: :show
+  before_action :image_url, only: %i[index show show_current_user]
 
   def index
     @users = User.all
@@ -19,6 +20,7 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+
     if @user.save
       token_data = generate_token(@user.id)
       render_success(data: { token: token_data[:token],
@@ -52,7 +54,11 @@ class Api::V1::UsersController < ApplicationController
 
   def user_params
     params.permit(
-      :first_name, :last_name, :email, :password
+      :first_name, :last_name, :email, :password, :image
     )
+  end
+
+  def image_url
+    ActiveStorage::Current.url_options = { host: request.base_url }
   end
 end
