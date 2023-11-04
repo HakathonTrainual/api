@@ -15,6 +15,9 @@ gem 'puma', '~> 5.0'
 # Gem for .env
 gem 'dotenv-rails', groups: %i[development test]
 
+# Gem for serializers
+gem 'active_model_serializers'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
@@ -44,9 +47,9 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 
 # gem "rack-cors"
-gem 'net-smtp', require: false
 gem 'net-imap', require: false
 gem 'net-pop', require: false
+gem 'net-smtp', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -54,10 +57,10 @@ group :development, :test do
 
   # For deploy
   gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-rails'
   gem 'capistrano3-puma'
   gem 'capistrano-nginx'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
   gem 'capistrano-upload-config'
   gem 'sshkit-sudo'
 end
