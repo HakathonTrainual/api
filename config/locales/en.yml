@@ -30,4 +30,10 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  validation_messages:
+    name_field: "Only latin and Ukrainian letters allowed, no spaces or special characters"
+    password: "Must contain at least one uppercase letter, one lowercase letter, and one digit"
+    email_format: "Invalid email format. Please enter a valid email address."
+    phone_number: "Invalid phone number. Please check your input and try again."
+    instagram_link_format: "Invalid Instagram link format"
+    facebook_link_format: "Invalid Facebook link format"
