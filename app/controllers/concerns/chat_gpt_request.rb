@@ -1,31 +1,36 @@
 # chat_gpt_module.rb
-module ChatGptRequest
-  require 'net/http'
-  require 'json'
+class ChatGptRequest
+  include HTTParty
 
-  BASE_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions'.freeze
+  attr_reader :api_url, :options, :model, :message
 
-  def self.generate_response(prompt, api_key)
-    uri = URI(BASE_URL)
-
-    headers = {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{api_key}"
+  def initialize(message, model = 'gpt-3.5-turbo')
+    api_key = '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'
+    @options = {
+      headers: {
+        'Content-Type' => 'application/json',
+        'Authorization' => "Bearer #{api_key}"
+      }
     }
+    @api_url = 'https://api.openai.com/v1/chat/completions'
+    @model = model
+    @message = message
+  end
 
-    data = {
-      'prompt' => prompt,
-      'max_tokens' => 50
+  def call
+    body = {
+      model:,
+      messages: [{ role: 'user', content: message }]
     }
+    response = HTTParty.post(api_url, body: body.to_json, headers: options[:headers], timeout: 10)
+    raise response['error']['message'] unless response.code == 200
 
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
+    response['choices'][0]['message']['content']
+  end
 
-    request = Net::HTTP::Post.new(uri.path, headers)
-    request.body = data.to_json
-
-    response = http.request(request)
-
-    JSON.parse(response.body)
+  class << self
+    def call(message, model = 'gpt-3.5-turbo')
+      new(message, model).call
+    end
   end
 end

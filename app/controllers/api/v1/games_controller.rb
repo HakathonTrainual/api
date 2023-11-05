@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::GamesController < ApplicationController
-  include ChatGptRequest
+  # include ChatGptRequest
   include Validatable
 
   def start_game
@@ -19,7 +19,8 @@ class Api::V1::GamesController < ApplicationController
 
     random_users[0].status = true
 
-    result_string = "#{random_users[0].hobbies.join(', ')}: #{random_users[0].description}"
+    # result_string = "#{random_users[0].hobbies.join(', ')}: #{random_users[0].description}"
+    result_string = 'спорт, охота, торти, я гарна людина'
 
     {
       question: generate_question(result_string),
@@ -35,12 +36,6 @@ class Api::V1::GamesController < ApplicationController
   private
 
   def generate_question(string)
-    api_key = ENV['OPENAI_API_KEY']
-
-    response = ChatGPTModule.generate_response("#{CONDITION_FOR_GPT} #{string}", api_key)
-
-    question = response['choices'][0]['text']
-
-    render json: { question: question }
+    ChatGptRequest.call(string)
   end
 end
