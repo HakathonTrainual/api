@@ -17,8 +17,7 @@ class Api::V1::GamesController < ApplicationController
 
     random_users[0].status = true
 
-    # result_string = "#{random_users[0].hobbies.join(', ')}: #{random_users[0].description}"
-    result_string = 'sport, hunting, cookies, I am a good person'
+    result_string = "#{random_users[0].hobbies.join(', ')}: #{random_users[0].description}"
 
     res = {
       question: generate_question(result_string),
@@ -29,7 +28,10 @@ class Api::V1::GamesController < ApplicationController
 
   def end_game
     result = params[:id]
-    current_user.progresses.create(target_user_id: result) if result.present?
+    if result.present?
+      progress = current_user.progresses.create(target_user_id: result)
+      progress.progresses += 1
+    end
   end
 
   private
