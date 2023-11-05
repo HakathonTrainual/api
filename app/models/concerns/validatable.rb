@@ -7,9 +7,7 @@ module Validatable
   RANGE_EMAIL_LENGTH = 8..64
   RANGE_PASSWORD_LENGTH = 8..20
   MAX_DESCRIPTION_LENGTH = 5..1000
-  CONDITION_FOR_GPT= "A few hobbies and a brief description are given.
-                      You need to combine the hobby and the description to get a new description.
-                      You don't need to separate the hobby and the description, you need to use the hobby in the description. Only one story:"
+  CONDITION_FOR_GPT = 'come up with a short description with these words: '
 
   REGEXP_USER = /\A[а-яА-ЯҐґЄєІіЇїa-zA-Z'`-]+\z/
   REGEXP_PHONE_UA = /\A\+380\d{9}\z/
