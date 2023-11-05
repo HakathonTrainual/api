@@ -18,11 +18,11 @@ module Validatable
   included do
     def self.validate_name_field(field)
       validates field, presence: true,
-                       length: { in: RANGE_NAME_LENGTH },
-                       format: {
-                         with: REGEXP_USER,
-                         message: I18n.t('validation_messages.name_field')
-                       }
+                length: { in: RANGE_NAME_LENGTH },
+                format: {
+                  with: REGEXP_USER,
+                  message: I18n.t('validation_messages.name_field')
+                }
     end
 
     def self.validate_email
@@ -49,5 +49,28 @@ module Validatable
       new_record? || password.present?
     end
 
+    def self.validate_description
+      validates :description,
+                presence: true,
+                length: { in: MAX_DESCRIPTION_LENGTH }
+    end
+
+    def self.validate_instagram_url
+      validates :instagram,
+                format: {
+                  with: REGEXP_INSTAGRAM,
+                  message: I18n.t('validation_messages.instagram_link_format')
+                },
+                allow_blank: true
+    end
+
+    def self.validate_facebook_url
+      validates :facebook,
+                format: {
+                  with: REGEXP_FACEBOOK,
+                  message: I18n.t('validation_messages.facebook_link_format')
+                },
+                allow_blank: true
+    end
   end
 end
