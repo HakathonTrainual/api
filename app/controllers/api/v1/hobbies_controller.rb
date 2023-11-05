@@ -1,44 +1,32 @@
 class Api::V1::HobbiesController < ApplicationController
-  before_action :find_user, only: :users_hobbies
-  before_action :find_hobby, only: %i[show edit update destroy]
+  before_action :find_hobby, only: :destroy
 
   def index
     @hobbies = Hobby.all
-    render json: @hobbies
-  end
-
-  def users_hobbies
-    @hobbies = @user.hobbies
-    render json: @hobbies
+    render_success(data: @hobbies, each_serializer: Api::V1::HobbySerializer)
   end
 
   def create
-    @hobby = Hobby.find_or_create_by(name: hobby_params[:name])
-    @user.hobbies << @hobby
-
-    if @user.save
-      render json: @hobby, status: :created
+    @hobby = Hobby.new(hobby_params)
+    if @hobby.save
+      render_success(data: @hobby, serializer: Api::V1::HobbySerializer)
     else
-      render json: { errors: @hobby.errors.full_messages }, status: :unprocessable_entity
+      render_error(errors: @user.errors.full_messages)
     end
   end
 
   def destroy
-    @user.hobbies.delete(@hobby)
-    head :no_content
+    @hobby.destroy
+    render_success(data: 'Hobby deleted successfully')
   end
 
   private
 
-  def find_user
-    @user = User.find(params[:user_id])
+  def hobby_params
+    params.permit(:name)
   end
 
   def find_hobby
     @hobby = Hobby.find(params[:id])
-  end
-
-  def hobby_params
-    params.require(:hobby).permit(:name)
   end
 end

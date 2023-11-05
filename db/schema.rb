@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_05_004101) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_05_033538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,13 +50,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_004101) do
     t.index ["user_id"], name: "index_hobbies_on_user_id"
   end
 
-  create_table "hobbies_users", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "hobby_id", null: false
-    t.index ["hobby_id", "user_id"], name: "index_hobbies_users_on_hobby_id_and_user_id"
-    t.index ["user_id", "hobby_id"], name: "index_hobbies_users_on_user_id_and_hobby_id"
-  end
-
   create_table "progresses", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "target_user_id"
@@ -65,6 +58,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_004101) do
     t.datetime "updated_at", null: false
     t.index ["target_user_id"], name: "index_progresses_on_target_user_id"
     t.index ["user_id"], name: "index_progresses_on_user_id"
+  end
+
+  create_table "user_hobbies", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "hobby_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hobby_id"], name: "index_user_hobbies_on_hobby_id"
+    t.index ["user_id"], name: "index_user_hobbies_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -86,4 +88,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_004101) do
   add_foreign_key "hobbies", "users"
   add_foreign_key "progresses", "users"
   add_foreign_key "progresses", "users", column: "target_user_id"
+  add_foreign_key "user_hobbies", "hobbies"
+  add_foreign_key "user_hobbies", "users"
 end
