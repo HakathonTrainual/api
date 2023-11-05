@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_05_033538) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_05_062849) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,7 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_033538) do
   create_table "progresses", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "target_user_id"
-    t.float "percentage"
+    t.integer "percentage", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["target_user_id"], name: "index_progresses_on_target_user_id"
@@ -80,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_05_033538) do
     t.integer "department", default: 0, null: false
     t.string "instagram"
     t.string "facebook"
+    t.boolean "status", default: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

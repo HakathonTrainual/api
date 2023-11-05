@@ -14,6 +14,9 @@ Rails.application.routes.draw do
       post '/login', to: 'authentication#login'
       get '/my_profile', to: 'users#show_current_user'
 
+      get '/games/start_game', to: 'games#start_game'
+      post '/games/end_game', to: 'games#end_game'
+
       resources :hobbies, only: %i[index create destroy]
       resources :user_hobbies, only: %i[create delete]
     end
