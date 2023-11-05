@@ -1,4 +1,4 @@
-class Api::V1::UserHobbiesController < ApplicationController
+class Api::V1::ProgressesController < ApplicationController
   before_action :find_hobby, only: :destroy
 
   def index
