@@ -5,22 +5,39 @@ class Api::V1::GamesController < ApplicationController
   include Validatable
 
   def start_game
-    @current_user
-    random_users = Progress.where('percentage < 100').order("RANDOM()").limit(4).pluck(:user_id)
-    users = User.where(id: random_users)
+    all_users = User.all
+
+    random_users = []
+    all_users.each do |user|
+      next if user == current_user
+      progress = current_user.progresses.find_by(target_user_id: user.id)
+      if progress.nil? || progress.percentage < 100
+        random_users << user
+      end
+      break if random_users.length >= 4
+    end
+
+    random_users[0].status = true
+
+    result_string = "#{random_users[0].hobbies.join(', ')}: #{random_users[0].description}"
+
+    {
+      question: generate_question(result_string),
+      users: [current_user, random_users]
+    }
   end
 
   def end_game
-
+    result = params[answer]
+    current_user.progresses.create(target_user_id: result) if result.present?
   end
 
   private
 
-  def generate_question
+  def generate_question(string)
     api_key = ENV['OPENAI_API_KEY']
-    keyword = params[:keyword]
 
-    response = ChatGPTModule.generate_response("#{CONDITION_FOR_GPT} #{keyword}", api_key)
+    response = ChatGPTModule.generate_response("#{CONDITION_FOR_GPT} #{string}", api_key)
 
     question = response['choices'][0]['text']
 
