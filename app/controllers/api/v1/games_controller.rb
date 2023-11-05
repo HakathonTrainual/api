@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class GamesController < ApplicationController
-  include ChatGPTModule
+class Api::V1::GamesController < ApplicationController
+  include ChatGptRequest
   include Validatable
 
   def start_game

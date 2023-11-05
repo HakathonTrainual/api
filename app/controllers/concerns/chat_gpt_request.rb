@@ -1,5 +1,5 @@
 # chat_gpt_module.rb
-module ChatGPTModule
+module ChatGptRequest
   require 'net/http'
   require 'json'
 
