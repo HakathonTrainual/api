@@ -48,7 +48,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def find_user
-    @user = User.includes(:user_hobbies).find(params[:id])
+    @user = User.includes(user_hobbies: :hobby).find(params[:id])
   end
 
   def user_params
