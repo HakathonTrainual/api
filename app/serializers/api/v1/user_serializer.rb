@@ -4,6 +4,8 @@ module Api
       attributes :id, :first_name, :last_name, :email, :description, :department, :instagram,
                  :facebook, :image_url, :hobby_names
 
+      has_many :hobby_names
+
       def image_url
         object.image.url if object.image.attached?
       end

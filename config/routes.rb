@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
       resources :hobbies, only: %i[index create destroy]
       resources :user_hobbies, only: %i[create delete]
+      resources :progresses
     end
   end
 end

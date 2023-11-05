@@ -1,30 +1,30 @@
 class Api::V1::ProgressesController < ApplicationController
-  before_action :authorize_request
   before_action :set_user
   before_action :set_progress, only: [:show, :update, :destroy]
 
   def index
     @progresses = Progress.all
-    render json: @progresses
+    render_success(data: @progresses, each_serializer: Api::V1::ProgressSerializer)
   end
 
   def show
-    render json: @progress, status: :ok
+    render_success(data: @progress, serializer: Api::V1::ProgressSerializer)
   end
 
   def create
     @progress = current_user.progresses.new(progress_params)
 
     if @progress.save
-      render json: @progress, status: :created
+      @progress.percentage = 1
+      render_success(data: @progress, serializer: Api::V1::ProgressSerializer)
     else
       render json: @progress.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    if @progress.update(progress_params)
-      render json: @progress
+    if @progress.increment(:percentage).save
+      render_success(data: @progress, serializer: Api::V1::ProgressSerializer)
     else
       render json: @progress.errors, status: :unprocessable_entity
     end
@@ -50,7 +50,7 @@ class Api::V1::ProgressesController < ApplicationController
 
   def progress_params
     params.permit(
-      :target_user_id, :percentage
+      :target_user_id
     )
   end
 end
