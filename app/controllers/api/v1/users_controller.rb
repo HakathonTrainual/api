@@ -27,8 +27,7 @@ class Api::V1::UsersController < ApplicationController
                              expiration_date: token_data[:expiration_date],
                              user: @user }, status: :created)
     else
-      render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
+      render_error(errors: @user.errors.full_messages)
     end
   end
 

@@ -3,21 +3,21 @@ class Api::V1::HobbiesController < ApplicationController
 
   def index
     @hobbies = Hobby.all
-    render json: @hobbies
+    render_success(data: @hobbies, each_serializer: Api::V1::HobbySerializer)
   end
 
   def create
     @hobby = Hobby.new(hobby_params)
     if @hobby.save
-      render json: @hobby, status: :created
+      render_success(data: @hobby, serializer: Api::V1::HobbySerializer)
     else
-      render json: { errors: @hobby.errors.full_messages }, status: :unprocessable_entity
+      render_error(errors: @user.errors.full_messages)
     end
   end
 
   def destroy
     @hobby.destroy
-    head :no_content
+    render_success(data: 'Hobby deleted successfully')
   end
 
   private
