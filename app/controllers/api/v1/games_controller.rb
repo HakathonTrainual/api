@@ -18,8 +18,6 @@ class Api::V1::GamesController < ApplicationController
 
     result_string = "#{random_users[0].user_hobbies.join(', ')}: #{random_users[0].description}"
 
-    puts(result_string)
-
     res = {
       question: generate_question(result_string),
       users: random_users
