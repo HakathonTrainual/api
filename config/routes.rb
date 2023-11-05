@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
   namespace :api do
     namespace :v1 do
       resources :users, except: %i[update destroy] do
@@ -11,6 +7,9 @@ Rails.application.routes.draw do
       end
       post '/login', to: 'authentication#login'
       get '/my_profile', to: 'users#show_current_user'
+
+      get '/games/start_game', to: 'games#start_game'
+      post '/games/end_game', to: 'games#end_game'
 
       resources :hobbies
       resources :progresses
