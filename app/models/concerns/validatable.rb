@@ -7,7 +7,8 @@ module Validatable
   RANGE_EMAIL_LENGTH = 8..64
   RANGE_PASSWORD_LENGTH = 8..20
   MAX_DESCRIPTION_LENGTH = 5..1000
-  CONDITION_FOR_GPT = 'create a colleague description for a company app used for meeting colleagues and onboarding new employees. you need to choose 1 - 2 characteristics for description'
+  CONDITION_FOR_GPT = 'I will now give you a description of the man and his passion. Please create
+                      1 sentence about this person. It is important that it be short and to the point'
 
   REGEXP_USER = /\A[а-яА-ЯҐґЄєІіЇїa-zA-Z'`-]+\z/
   REGEXP_PHONE_UA = /\A\+380\d{9}\z/
