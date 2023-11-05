@@ -5,8 +5,8 @@ class User < ApplicationRecord
 
   has_many :progresses, dependent: :destroy
   has_many :user_hobbies, dependent: :destroy
+  has_many :hobbies, through: :user_hobbies
   has_one_attached :image
-  # has_and_belongs_to_many :hobbies
 
   enum department: {
     Development: 0,
