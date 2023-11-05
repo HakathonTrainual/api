@@ -23,7 +23,7 @@ class Api::V1::HobbiesController < ApplicationController
   private
 
   def hobby_params
-    params.require(:hobby).permit(:name)
+    params.permit(:name)
   end
 
   def find_hobby
