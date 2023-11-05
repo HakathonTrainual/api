@@ -3,7 +3,9 @@
 module Api
   module V1
     class UserHobbySerializer < ActiveModel::Serializer
-      attributes :id, :hobby_id  # Include other attributes as needed
+      attributes :id #, :hobby_id  # Include other attributes as needed
+
+      belongs_to :hobby
     end
   end
 end
