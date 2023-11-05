@@ -1,56 +1,32 @@
-class Api::V1::ProgressesController < ApplicationController
-  before_action :authorize_request
-  before_action :set_user
-  before_action :set_progress, only: [:show, :update, :destroy]
+class Api::V1::UserHobbiesController < ApplicationController
+  before_action :find_hobby, only: :destroy
 
   def index
-    @progresses = Progress.all
-    render json: @progresses
-  end
-
-  def show
-    render json: @progress, status: :ok
+    @user_hobbies = current_user.hobbies
+    render_success(data: @user_hobbies, each_serializer: Api::V1::HobbySerializer)
   end
 
   def create
-    @progress = current_user.progresses.new(progress_params)
-
-    if @progress.save
-      render json: @progress, status: :created
+    @user_hobby = current_user.hobbies.new(hobby_params)
+    if @user_hobby.save
+      render_success(data: @user_hobby, serializer: Api::V1::HobbySerializer)
     else
-      render json: @progress.errors, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    if @progress.update(progress_params)
-      render json: @progress
-    else
-      render json: @progress.errors, status: :unprocessable_entity
+      render_error(errors: @user_hobby.errors.full_messages)
     end
   end
 
   def destroy
-    @progress.destroy
-    head :no_content
+    current_user.hobbies.delete(@user_hobby)
+    render_success(data: 'Hobby deleted successfully')
   end
 
   private
 
-  def set_user
-    current_user_id = current_user.id
-    @user = User.find_by(id: current_user_id)
-    user_id = @user.id
-    @target_user = User.find_by(id: params[:target_user_id])
+  def hobby_params
+    params.require(:hobby).permit(:name)
   end
 
-  def set_progress
-    @progress = Progress.find(params[:id])
-  end
-
-  def progress_params
-    params.permit(
-      :target_user_id, :percentage
-    )
+  def find_hobby
+    @hobby = current_user.hobbies.find(params[:id])
   end
 end

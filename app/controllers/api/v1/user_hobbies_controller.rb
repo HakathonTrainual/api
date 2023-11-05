@@ -14,6 +14,7 @@ class Api::V1::UserHobbiesController < ApplicationController
   def create
     @user_hobby = current_user.hobbies.new(hobby_params)
     if @user_hobby.save
+
       render json: @user_hobby, status: :created
     else
       render json: { errors: @user_hobby.errors.full_messages }, status: :unprocessable_entity
