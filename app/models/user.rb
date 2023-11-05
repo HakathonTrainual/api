@@ -3,10 +3,10 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :progresses
-  has_many :user_hobbies
+  has_many :progresses, dependent: :destroy
+  has_many :user_hobbies, dependent: :destroy
   has_one_attached :image
-  has_and_belongs_to_many :hobbies
+  # has_and_belongs_to_many :hobbies
 
   enum department: {
     Development: 0,
