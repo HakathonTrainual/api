@@ -13,14 +13,8 @@ class Api::V1::HobbiesController < ApplicationController
   end
 
   def create
-    @hobby = Hobby.find_or_create_by(name: hobby_params[:name])
-    @user.hobbies << @hobby
-
-    if @user.save
-      render json: @hobby, status: :created
-    else
-      render json: { errors: @hobby.errors.full_messages }, status: :unprocessable_entity
-    end
+    @hobby = create_hobby(hobby_params[:name])
+    assign_hobby_to_user(@user, @hobby)
   end
 
   def destroy
@@ -40,5 +34,15 @@ class Api::V1::HobbiesController < ApplicationController
 
   def hobby_params
     params.require(:hobby).permit(:name)
+  end
+
+  def create_hobby(name)
+    Hobby.find_or_create_by(name: name)
+  end
+
+  def assign_hobby_to_user(user, hobby)
+    user.hobbies << hobby
+    user.save
+    render json: hobby, status: :created
   end
 end

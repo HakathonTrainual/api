@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :users, except: %i[update destroy] do
         put :update, on: :collection
         delete :destroy, on: :collection
+        resources :hobbies, only: %i[index create destroy]
       end
       post '/login', to: 'authentication#login'
       get '/my_profile', to: 'users#show_current_user'
